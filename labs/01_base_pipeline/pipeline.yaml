@@ -1,3 +1,18 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:  
+  name: hello-pipeline
+
+spec:
+  params:
+  - name: message
+  tasks:
+  - name: hello
+    taskRef: 
+      name: echo
+    params:
+    - name: message
+      value: "$(params.message)"
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
@@ -17,3 +32,39 @@ spec:
         value: "$(params.repo-url)"
       - name: branch
         value: "$(params.branch)"
+    
+    - name: lint 
+      taskRef: 
+        name: echo
+      params:
+      - name: message
+        value: "Calling Lint"
+      runAfter:
+      - clone
+
+    - name: tests 
+      taskRef: 
+        name: echo
+      params:
+      - name: message
+        value: "Testing code from $(params.branch)"
+      runAfter:
+      - lint
+
+    - name: build 
+      taskRef: 
+        name: echo
+      params:
+      - name: message
+        value: "Building image for $(params.repo-url)"
+      runAfter:
+      - tests
+
+    - name: deploy 
+      taskRef: 
+        name: echo
+      params:
+      - name: message
+        value: "Deploying code from $(params.branch)"
+      runAfter:
+      - tests
