@@ -2,6 +2,7 @@
 
 This folder holds the files for the lab: _Integrate Unit Test Automation_ which is part of the **IBM-CD0215EN-Skills Network Introduction to CI/CD** course.
 
+```
 $ kubectl apply -f task.yaml
 
 $ kubectl apply -f pipeline.yaml
@@ -179,3 +180,4 @@ Waiting for logs to be available...
 [lint : flake8] ./service/common/log_handlers.py:34:80: E501 line too long (88 > 79 characters)
 
 failed to get logs for task lint : container step-flake8 has failed  : [{"key":"StartedAt","value":"2023-01-14T00:55:09.257Z","type":3}]
+```
